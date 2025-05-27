@@ -1,24 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { SolicitacoesContext } from '../context/SolicitacoesContext';
+import type {SolicitacaoCredito } from '../context/SolicitacoesContext';
+import { NotificacoesContext } from '../context/NotificacoesContext';
 
-interface Cliente {
-  id_cliente: number;
-  nome: string;
-  cpf: string;
-  profissao: string;
-  idade: number;
-  salario_anual: number;
-}
-
-interface SolicitacaoCredito extends Cliente {
-  valor_emprestimo: number;
-  meses_restantes: number;
-  juros_mensal: number;
-  valor_parcela: number;
-}
+const maxCardsVisiveis = 5;
 
 export default function SolicitacoesCredito() {
-  const [solicitacoes, setSolicitacoes] = useState<SolicitacaoCredito[]>([]);
-  const maxCardsVisiveis = 5;
+  const { solicitacoes, adicionarSolicitacao, removerSolicitacao } = useContext(SolicitacoesContext);
+  const { removerNotificacao } = useContext(NotificacoesContext);
 
   // Gera valores aleatórios do empréstimo para o cliente
   const gerarValoresEmprestimo = () => {
@@ -31,14 +20,13 @@ export default function SolicitacoesCredito() {
     return { valor_emprestimo, meses_restantes, juros_mensal, valor_parcela };
   };
 
-  // Função que busca cliente aleatório da API e cria solicitação com valores aleatórios
+  // Busca cliente aleatório da API e cria solicitação
   const buscarNovaSolicitacao = async () => {
     try {
       const res = await fetch('http://localhost:8000/clientes/random');
       if (!res.ok) throw new Error('Erro ao buscar cliente');
-      const cliente: Cliente = await res.json();
+      const cliente: Omit<SolicitacaoCredito, 'valor_emprestimo' | 'meses_restantes' | 'juros_mensal' | 'valor_parcela'> = await res.json();
 
-      // Evita duplicação na lista de solicitacoes
       if (solicitacoes.find((s) => s.id_cliente === cliente.id_cliente)) return;
 
       const valoresEmprestimo = gerarValoresEmprestimo();
@@ -48,39 +36,13 @@ export default function SolicitacoesCredito() {
         ...valoresEmprestimo,
       };
 
-      setSolicitacoes((old) => [...old, novaSolicitacao]);
+      adicionarSolicitacao(novaSolicitacao);
     } catch (error) {
       console.error('Erro ao buscar nova solicitação:', error);
     }
   };
 
-  // Remove um pedido da lista (ao aceitar ou recusar)
-  const removerSolicitacao = (id_cliente: number) => {
-    setSolicitacoes((old) => old.filter((s) => s.id_cliente !== id_cliente));
-  };
-
-  useEffect(() => {
-    sessionStorage.setItem('solicitacoesCredito', JSON.stringify(solicitacoes));
-  }, [solicitacoes]);
-
-  // Inicializa intervalo que cria solicitações infinitamente a cada 8s
-  useEffect(() => {
-    // Ao montar, carrega as solicitações salvas do sessionStorage
-    const salvas = sessionStorage.getItem('solicitacoesCredito');
-    if (salvas) {
-      setSolicitacoes(JSON.parse(salvas));
-    }
-
-    // Inicia o carregamento automático de novas solicitações
-    const intervalo = setInterval(() => {
-      buscarNovaSolicitacao();
-    }, 2000); // Timer
-
-    return () => clearInterval(intervalo);
-  }, []);
-
-
-  // Registro
+  // Registra decisão no histórico local
   const registrarDecisao = (solicitacao: SolicitacaoCredito, status: 'aceito' | 'recusado') => {
     const historico = JSON.parse(sessionStorage.getItem('historicoCredito') || '[]');
     const novaEntrada = {
@@ -98,8 +60,7 @@ export default function SolicitacoesCredito() {
       </h2>
 
       <p className="mb-6 text-center text-gray-600 font-semibold">
-        Pedidos na tela: {Math.min(solicitacoes.length, maxCardsVisiveis)} / Total pendentes:{' '}
-        {solicitacoes.length}
+        Pedidos na tela: {Math.min(solicitacoes.length, maxCardsVisiveis)} / Total pendentes: {solicitacoes.length}
       </p>
 
       <div className="space-y-6">
@@ -114,47 +75,25 @@ export default function SolicitacoesCredito() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-700">
+              <p><span className="font-semibold">CPF:</span> {s.cpf}</p>
+              <p><span className="font-semibold">Profissão:</span> {s.profissao}</p>
+              <p><span className="font-semibold">Idade:</span> {s.idade} anos</p>
               <p>
-                <span className="font-semibold">CPF:</span> {s.cpf}
-              </p>
-              <p>
-                <span className="font-semibold">Profissão:</span> {s.profissao}
-              </p>
-              <p>
-                <span className="font-semibold">Idade:</span> {s.idade} anos
-              </p>
-              <p>
-                <span className="font-semibold">Salário Anual:</span>{' '}
-                R${' '}
-                {s.salario_anual.toLocaleString('pt-BR', {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
+                <span className="font-semibold">Salário Anual:</span> R${' '}
+                {s.salario_anual.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
             </div>
 
             <div className="mt-4 border-t border-gray-200 pt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-700">
               <p>
-                <span className="font-semibold">Valor do Empréstimo:</span>{' '}
-                R${' '}
-                {s.valor_emprestimo.toLocaleString('pt-BR', {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
+                <span className="font-semibold">Valor do Empréstimo:</span> R${' '}
+                {s.valor_emprestimo.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
+              <p><span className="font-semibold">Meses Restantes:</span> {s.meses_restantes}</p>
+              <p><span className="font-semibold">Juros Mensal:</span> {s.juros_mensal}%</p>
               <p>
-                <span className="font-semibold">Meses Restantes:</span> {s.meses_restantes}
-              </p>
-              <p>
-                <span className="font-semibold">Juros Mensal:</span> {s.juros_mensal}%
-              </p>
-              <p>
-                <span className="font-semibold">Parcela Mensal:</span>{' '}
-                R${' '}
-                {s.valor_parcela.toLocaleString('pt-BR', {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
+                <span className="font-semibold">Parcela Mensal:</span> R${' '}
+                {s.valor_parcela.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </p>
             </div>
 
@@ -163,6 +102,7 @@ export default function SolicitacoesCredito() {
                 onClick={() => {
                   registrarDecisao(s, 'aceito');
                   removerSolicitacao(s.id_cliente);
+                  removerNotificacao(s.id_cliente);
                 }}
                 className="flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
               >
@@ -172,6 +112,7 @@ export default function SolicitacoesCredito() {
                 onClick={() => {
                   registrarDecisao(s, 'recusado');
                   removerSolicitacao(s.id_cliente);
+                  removerNotificacao(s.id_cliente);
                 }}
                 className="flex-1 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition"
               >

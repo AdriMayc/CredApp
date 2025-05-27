@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   FaArrowUp,
   FaArrowDown,
@@ -30,23 +30,22 @@ interface DadosInstituicao {
   };
 }
 
+interface PainelResumoCreditoProps {
+  creditoTotal: number;
+  creditoUsado: number;
+}
 
-
-function PainelResumoCredito({ creditoTotal, creditoUsado }) {
+function PainelResumoCredito({ creditoTotal, creditoUsado }: PainelResumoCreditoProps) {
   const limiteDisponivel = creditoTotal - creditoUsado;
-  const [ultimoLimite, setUltimoLimite] = useState(limiteDisponivel);
-  const [limiteCresceu, setLimiteCresceu] = useState<null | boolean>(null);
+  const limiteAnteriorRef = useRef(limiteDisponivel);
+  const [limiteCresceu, setLimiteCresceu] = useState<boolean | null>(null);
 
   useEffect(() => {
-    if (limiteDisponivel > ultimoLimite) {
-      setLimiteCresceu(true);
-    } else if (limiteDisponivel < ultimoLimite) {
-      setLimiteCresceu(false);
-    } else {
-      setLimiteCresceu(null);
+    if (limiteAnteriorRef.current !== limiteDisponivel) {
+      setLimiteCresceu(limiteDisponivel > limiteAnteriorRef.current);
+      limiteAnteriorRef.current = limiteDisponivel;
     }
-    setUltimoLimite(limiteDisponivel);
-  }, [limiteDisponivel, ultimoLimite]);
+  }, [limiteDisponivel]);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mx-auto mt-5">
@@ -135,7 +134,7 @@ function ExtratoCredito() {
               key={index}
               className={`flex items-center justify-between py-4 px-2 mb-2 rounded-md shadow-xl border ${
                 item.status === "aceito"
-                  ? "bg-green-50 border-l-4 border-green-500"
+                  ? "bg-blue-50 border-l-4 border-blue-500"
                   : "bg-red-100 border-l-4 border-red-300"
               }`}
             >
@@ -146,7 +145,7 @@ function ExtratoCredito() {
               <div className="text-right">
                 <p
                   className={`text-base font-bold ${
-                    item.status === "aceito" ? "text-green-600" : "text-red-400"
+                    item.status === "aceito" ? "text-blue-600" : "text-red-400"
                   }`}
                 >
                   {item.status === "aceito" ? "-" : ""} R$ {item.valor_emprestimo.toLocaleString("pt-BR", {

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Bell } from 'lucide-react'
+import Notificacoes from './Notificacoes';
 
 function Navbar() {
   return (
@@ -10,22 +11,9 @@ function Navbar() {
           App
         </Link>
 
-        {/* Menu Desktop */}
-        <ul className="hidden md:flex space-x-6 text-black items-center">
-          <li><Link to="/" className="hover:text-blue-500">Início</Link></li>
-          <li><Link to="/ScorePage" className="hover:text-blue-500">Score</Link></li>
-          <li><Link to="/sobre" className="hover:text-blue-500">Sobre</Link></li>
-        </ul>
-
-        {/* Ícone de Notificação */}
+        {/* Componente Notificações */}
         <div className="flex items-center">
-          <button className="relative hover:text-blue-500">
-            <Bell className="w-6 h-6 text-black" />
-            {/* Badge opcional */}
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1.5">
-              3
-            </span>
-          </button>
+          <Notificacoes />
         </div>
       </div>
     </nav>
