@@ -1,6 +1,14 @@
 import React from "react";
 
-export default function PainelResumoCredito({ dados }) {
+interface PainelResumoCreditoProps {
+  dados: {
+    creditoTotal?: number;
+    creditoUsado?: number;
+    limiteDisponivel?: number;
+  };
+}
+
+export default function PainelResumoCredito({ dados }: PainelResumoCreditoProps) {
   const {
     creditoTotal = 20000,
     creditoUsado = 8500,
@@ -26,3 +34,4 @@ export default function PainelResumoCredito({ dados }) {
     </div>
   );
 }
+

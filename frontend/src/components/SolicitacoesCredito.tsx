@@ -59,16 +59,37 @@ export default function SolicitacoesCredito() {
     setSolicitacoes((old) => old.filter((s) => s.id_cliente !== id_cliente));
   };
 
+  useEffect(() => {
+    sessionStorage.setItem('solicitacoesCredito', JSON.stringify(solicitacoes));
+  }, [solicitacoes]);
+
   // Inicializa intervalo que cria solicitações infinitamente a cada 8s
   useEffect(() => {
-    buscarNovaSolicitacao();
+    // Ao montar, carrega as solicitações salvas do sessionStorage
+    const salvas = sessionStorage.getItem('solicitacoesCredito');
+    if (salvas) {
+      setSolicitacoes(JSON.parse(salvas));
+    }
 
+    // Inicia o carregamento automático de novas solicitações
     const intervalo = setInterval(() => {
       buscarNovaSolicitacao();
-    }, 10000); // 10s
+    }, 2000); // Timer
 
     return () => clearInterval(intervalo);
   }, []);
+
+
+  // Registro
+  const registrarDecisao = (solicitacao: SolicitacaoCredito, status: 'aceito' | 'recusado') => {
+    const historico = JSON.parse(sessionStorage.getItem('historicoCredito') || '[]');
+    const novaEntrada = {
+      ...solicitacao,
+      status,
+      data: new Date().toLocaleString('pt-BR'),
+    };
+    sessionStorage.setItem('historicoCredito', JSON.stringify([...historico, novaEntrada]));
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-md mt-10">
@@ -139,13 +160,19 @@ export default function SolicitacoesCredito() {
 
             <div className="flex gap-4 mt-5">
               <button
-                onClick={() => removerSolicitacao(s.id_cliente)}
+                onClick={() => {
+                  registrarDecisao(s, 'aceito');
+                  removerSolicitacao(s.id_cliente);
+                }}
                 className="flex-1 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
               >
                 Aceitar
               </button>
               <button
-                onClick={() => removerSolicitacao(s.id_cliente)}
+                onClick={() => {
+                  registrarDecisao(s, 'recusado');
+                  removerSolicitacao(s.id_cliente);
+                }}
                 className="flex-1 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition"
               >
                 Recusar
