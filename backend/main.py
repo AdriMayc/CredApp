@@ -2,6 +2,8 @@ from fastapi import FastAPI, Query, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 from pydantic import BaseModel
+from collections import defaultdict
+from datetime import datetime
 
 app = FastAPI(title="API de Clientes", version="0.2.0")
 
@@ -13,10 +15,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Lê o novo CSV
+# Lê o CSV
 df = pd.read_csv("./dataset/clientes_CredApp.csv")
 
-# Adiciona uma coluna numérica para o score
+# Mapeia score_credito para valor numérico
 score_map = {
     "Muito Ruim": 300,
     "Ruim": 450,
@@ -25,14 +27,17 @@ score_map = {
     "Muito Bom": 850,
     "Excelente": 900,
 }
-df["score_credito_num"] = df["score_credito"].map(score_map).fillna(0)  # NaN vira 0 no score numérico
-df["id_cliente"] = pd.to_numeric(df["id_cliente"], errors='coerce').fillna(0)  # garante numérico
-df["inadimplente"] = df["inadimplente"].fillna(0).astype(int)  # sem NaN e inteiro
+df["score_credito_num"] = df["score_credito"].map(score_map).fillna(0)
+df["id_cliente"] = pd.to_numeric(df["id_cliente"], errors='coerce').fillna(0)
+df["inadimplente"] = df["inadimplente"].fillna(0).astype(int)
 df["atrasos_meses"] = df["atrasos_meses"].fillna(0).astype(int)
+df["valor_total_divida"] = df["valor_total_divida"].fillna(0)
+df["data_inicio_emprestimo"] = pd.to_datetime(df["data_inicio_emprestimo"], errors='coerce')
 
 @app.get("/")
 def home():
     return {"mensagem": "API de Crédito no ar 🚀 — acesse /docs para testar"}
+
 
 @app.get("/clientes")
 def listar_clientes(
@@ -157,3 +162,41 @@ def cliente_aleatorio():
         "profissao": cliente["profissao"],
         "salario_anual": float(cliente["salario_anual"]),
     }
+
+@app.get("/clientes-inadimplentes")
+def listar_inadimplentes_resumido():
+    try:
+        inadimplentes = df[df["inadimplente"] == 1]
+        selecionados = inadimplentes[[
+            "id_cliente", "nome", "cpf", "score_credito", "score_credito_num",
+            "atrasos_meses", "valor_total_divida"
+        ]]
+        return selecionados.to_dict(orient="records")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@app.get("/dividas-mensais")
+def dividas_mensais():
+    try:
+        # Filtra linhas válidas com data e dívida > 0
+        dados_validos = df.dropna(subset=["data_inicio_emprestimo"])
+        dados_validos = dados_validos[dados_validos["valor_total_divida"] > 0]
+
+        # Agrupa por mês/ano da data de início do empréstimo
+        dividas_agrupadas = (
+            dados_validos
+            .groupby(dados_validos["data_inicio_emprestimo"].dt.to_period("M"))["valor_total_divida"]
+            .sum()
+            .reset_index()
+        )
+
+        # Converte Period para string 'YYYY-MM'
+        dividas_agrupadas["mes"] = dividas_agrupadas["data_inicio_emprestimo"].astype(str)
+        dividas_agrupadas = dividas_agrupadas.drop(columns=["data_inicio_emprestimo"])
+
+        resultado = dividas_agrupadas.rename(columns={"valor_total_divida": "total_divida"}).to_dict(orient="records")
+
+        return {"dividas_mensais": resultado}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao calcular dívidas mensais: {e}")

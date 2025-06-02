@@ -1,3 +1,5 @@
+// SolicitacoesContext.tsx
+
 import React, {
   createContext,
   useState,
@@ -97,7 +99,7 @@ export function SolicitacoesProvider({ children }: Props) {
   useEffect(() => {
     const intervalo = setInterval(() => {
       buscarNovaSolicitacao();
-    }, 11000); // a cada 15 minutos
+    }, 900000); // a cada 15 minutos
 
     return () => clearInterval(intervalo);
   }, [buscarNovaSolicitacao]);

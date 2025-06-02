@@ -1,25 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { NotificacoesContext } from '../../context/NotificacoesContext';
 
 export default function Notificacoes() {
   const { notificacoes, contador, removerNotificacao } = useContext(NotificacoesContext);
-  const [mostrarLista, setMostrarLista] = useState(false);
-  const [primeiraNotificacaoMostrada, setPrimeiraNotificacaoMostrada] = useState(false);
-
-  // Controla o fechamento automático apenas para a primeira notificação
-  useEffect(() => {
-    if (notificacoes.length > 0 && !mostrarLista && !primeiraNotificacaoMostrada) {
-      setMostrarLista(true); // Exibe a lista de notificações
-      setPrimeiraNotificacaoMostrada(true); // Marca que a primeira já foi mostrada
-
-      // Fecha automaticamente depois de 5 segundos
-      const timeout = setTimeout(() => {
-        setMostrarLista(false);
-      }, 5000);
-
-      return () => clearTimeout(timeout);
-    }
-  }, [notificacoes]); // Monitorar apenas notificações
+  const [mostrarLista, setMostrarLista] = React.useState(false);
 
   // Função para alternar manualmente a visibilidade da lista de notificações
   const toggleMostrarLista = () => {
@@ -42,7 +26,7 @@ export default function Notificacoes() {
       </button>
 
       {mostrarLista && (
-        <div className="absolute right-0 mt-2 w-80 max-h-96 overflow-auto bg-white shadow-lg rounded-md border border-gray-300 z-50">
+        <div className="absolute right-0 mt-2 w-90 max-h-96 overflow-auto bg-white shadow-lg rounded-md border border-gray-300 z-50">
           {notificacoes.length === 0 && (
             <p className="p-4 text-center text-gray-600">Nenhuma notificação</p>
           )}

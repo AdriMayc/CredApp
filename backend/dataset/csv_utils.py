@@ -16,8 +16,8 @@ def gerar_cliente(id):
     idade = random.randint(18, 75)
     salario_mensal = random.uniform(2000, 6000)
     salario_anual = round(salario_mensal * 12, 2)
-    score_credito = random.choice(['Ruim', 'Regular', 'Bom', 'Muito Bom', 'Excelente'])
-
+    
+    # Primeiro verifica se é inadimplente para definir o score
     possui_emprestimo = random.choice([0, 1])
     if possui_emprestimo:
         valor_emprestimo = round(random.uniform(1000, 100000), 2)
@@ -29,16 +29,23 @@ def gerar_cliente(id):
         tipo_emprestimo = random.choice(['Pessoal', 'Consignado', 'Imobiliário'])
         inadimplente = random.choice([0, 1])
         atrasos_meses = random.randint(1, meses_restantes) if inadimplente else 0
+        
+        # Se for inadimplente, score só pode ser Ruim ou Regular
+        if inadimplente:
+            score_credito = random.choice(['Ruim', 'Regular'])
+        else:
+            score_credito = random.choice(['Ruim', 'Regular', 'Bom', 'Muito Bom', 'Excelente'])
     else:
         valor_emprestimo = 0.0
         meses_restantes = 0
         juros_mensal = 0.0
         valor_parcela = 0.0
         valor_total_divida = 0.0
-        data_inicio = "1900-01-01"  # Data vazia pode ficar string vazia, ok para csv
+        data_inicio = "1900-01-01"
         tipo_emprestimo = "Nenhum"
         inadimplente = 0
         atrasos_meses = 0
+        score_credito = random.choice(['Ruim', 'Regular', 'Bom', 'Muito Bom', 'Excelente'])
 
     return [
         id, nome, cpf, email, telefone, endereco, profissao, idade, salario_anual,
@@ -66,13 +73,26 @@ print("Arquivo 'clientes_CredApp.csv' gerado com sucesso!")
 
 
 # %%
+
 import pandas as pd
 
-# Lê o CSV
-df = pd.read_csv("./clientes_CredApp.csv")
+# Caminho para o arquivo CSV
+caminho_arquivo = './clientes_CredApp.csv'
 
+# Lê o arquivo CSV
+df = pd.read_csv(caminho_arquivo)
 
-df.head(10)
+# Verifica as primeiras linhas do CSV para entender a estrutura dos dados
+print(df.head())
+
+# Filtra apenas os clientes inadimplentes (onde 'inadimplente' é igual a 1)
+inadimplentes = df[df['inadimplente'] == 1]
+
+# Exibe os inadimplentes encontrados
+print(f'Total de clientes inadimplentes: {inadimplentes.shape[0]}')
+print(inadimplentes)
+
+# Opcional: Salva os resultados filtrados em um novo CSV
+inadimplentes.to_csv('inadimplentes.csv', index=False)
 
 # %%
-

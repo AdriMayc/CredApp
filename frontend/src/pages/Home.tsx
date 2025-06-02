@@ -1,3 +1,4 @@
+// Home.tsx
 import React, { useEffect, useState, useRef } from "react";
 import {
   FaArrowUp,
@@ -7,6 +8,9 @@ import {
   FaPercentage,
   FaMoneyBillWave,
 } from "react-icons/fa";
+
+import CardInadimplentes from "../components/home/CardInadimplentes";
+import DividasMensaisChart from "../components/DividasMensaisChart";
 
 const COLORS = ["#3B82F6", "#22C55E"];
 
@@ -64,24 +68,22 @@ function PainelResumoCredito({ creditoTotal, creditoUsado }: PainelResumoCredito
       </div>
 
       <div
-        className={`rounded-2xl shadow-md p-4 bg-white border border-gray-200 flex items-center justify-between ${
-          limiteCresceu === null
+        className={`rounded-2xl shadow-md p-4 bg-white border border-gray-200 flex items-center justify-between ${limiteCresceu === null
             ? ""
             : limiteCresceu
-            ? "border-green-600 bg-green-50"
-            : "border-red-600 bg-red-50"
-        }`}
+              ? "border-green-600 bg-green-50"
+              : "border-red-600 bg-red-50"
+          }`}
       >
         <div>
           <p className="text-gray-500 text-sm">Limite Disponível</p>
           <p
-            className={`text-2xl font-semibold ${
-              limiteCresceu === null
+            className={`text-2xl font-semibold ${limiteCresceu === null
                 ? "text-gray-800"
                 : limiteCresceu
-                ? "text-green-600"
-                : "text-red-600"
-            }`}
+                  ? "text-green-600"
+                  : "text-red-600"
+              }`}
           >
             R$ {limiteDisponivel.toLocaleString()}
           </p>
@@ -132,11 +134,10 @@ function ExtratoCredito() {
           {historicoFiltrado.map((item, index) => (
             <div
               key={index}
-              className={`flex items-center justify-between py-4 px-2 mb-2 rounded-md shadow-xl border ${
-                item.status === "aceito"
+              className={`flex items-center justify-between py-4 px-2 mb-2 rounded-md shadow-xl border ${item.status === "aceito"
                   ? "bg-blue-50 border-l-4 border-blue-500"
                   : "bg-red-100 border-l-4 border-red-300"
-              }`}
+                }`}
             >
               <div className="flex-1">
                 <p className="text-sm font-semibold text-gray-700">{item.nome}</p>
@@ -144,9 +145,8 @@ function ExtratoCredito() {
               </div>
               <div className="text-right">
                 <p
-                  className={`text-base font-bold ${
-                    item.status === "aceito" ? "text-blue-600" : "text-red-400"
-                  }`}
+                  className={`text-base font-bold ${item.status === "aceito" ? "text-blue-600" : "text-red-400"
+                    }`}
                 >
                   {item.status === "aceito" ? "-" : ""} R$ {item.valor_emprestimo.toLocaleString("pt-BR", {
                     minimumFractionDigits: 2,
@@ -225,7 +225,7 @@ export default function PainelInstituicao() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6 mt-10">
+    <div className="min-h-screen bg-gray-100 p-6 mt-16">
       <h1 className="text-3xl font-extrabold mb-6 text-center tracking-tight">
         Painel da Principal
       </h1>
@@ -245,6 +245,15 @@ export default function PainelInstituicao() {
           </div>
         ))}
       </div>
+
+      <div>
+        <CardInadimplentes />
+      </div>
+
+      <div className="mt-10">
+        <DividasMensaisChart />
+      </div>
+
 
     </div>
   );

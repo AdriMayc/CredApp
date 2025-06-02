@@ -136,7 +136,7 @@ export default function SimuladorCredito() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6 flex flex-col items-center mt-10">
+    <div className="min-h-screen bg-gray-100 p-6 flex flex-col items-center mt-16">
       <h1 className="text-2xl font-bold mb-6">Simulador de Crédito</h1>
 
       <div className="bg-white p-6 rounded-xl shadow w-full max-w-md">
