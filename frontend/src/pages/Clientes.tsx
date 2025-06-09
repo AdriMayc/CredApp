@@ -15,7 +15,7 @@
 
 import { useEffect, useState } from 'react';
 import { ArrowDown, ArrowUp } from 'lucide-react';
-import SolicitacoesCredito from '../components/clientes/SolicitacoesCredito'
+import SolicitacoesCredito from '../components/clientes/SolicitacoesCredito';
 import { API_URL } from '../config/api';
 
 interface Cliente {
@@ -32,6 +32,7 @@ interface Cliente {
 export default function Clientes() {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [search, setSearch] = useState('');
+  const [searchDebounced, setSearchDebounced] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPaginas, setTotalPaginas] = useState(1);
   const [ordenarPor, setOrdenarPor] = useState('');
@@ -48,13 +49,20 @@ export default function Clientes() {
     { key: 'score_credito', label: 'Score de Crédito' },
   ];
 
-
+  // Debounce da busca (aguarda 500ms após parar de digitar)
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setSearchDebounced(search);
+      setCurrentPage(1);
+    }, 500);
+    return () => clearTimeout(timeout);
+  }, [search]);
 
   useEffect(() => {
     const params = new URLSearchParams({
       pagina: currentPage.toString(),
       limite: clientesPorPagina.toString(),
-      filtro: search,
+      filtro: searchDebounced,
     });
 
     if (ordenarPor && direcao) {
@@ -72,7 +80,7 @@ export default function Clientes() {
         setTotalPaginas(Math.ceil(data.total / clientesPorPagina));
       })
       .catch(err => console.error('Erro ao carregar clientes:', err));
-  }, [currentPage, search, ordenarPor, direcao]);
+  }, [currentPage, searchDebounced, ordenarPor, direcao]);
 
   const alterarOrdenacao = (coluna: string) => {
     if (ordenarPor !== coluna) {
@@ -80,7 +88,7 @@ export default function Clientes() {
       setDirecao('asc');
     } else if (direcao === 'asc') {
       setDirecao('desc');
-    } else if (direcao === 'desc') {
+    } else {
       setOrdenarPor('');
       setDirecao('');
     }
@@ -94,30 +102,26 @@ export default function Clientes() {
   };
 
   return (
-    <div className="my-20 px-4 max-w-6xl mx-auto ">
-      <h2 className="text-3xl font-semibold mb-6 flex justify-center">Lista de Clientes</h2>
+    <div className="my-20 px-4 max-w-6xl mx-auto">
+      <h2 className="text-3xl font-semibold mb-6 text-center">Lista de Clientes</h2>
 
-      <div className="flex items-center gap-2 mb-4">
+      <div className="flex gap-2 mb-4">
         <input
           type="text"
           placeholder="Buscar por Nome ou CPF..."
           value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setCurrentPage(1);
-          }}
+          onChange={(e) => setSearch(e.target.value)}
           className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <button
-          onClick={() => {
-            setSearch('');
-            setCurrentPage(1);
-          }}
-          className="py-[0.5rem] px-4 rounded-md border border-gray-300 bg-white hover:bg-blue-100 transition-colors shadow-sm"
-          title="Limpar busca"
-        >
-          <span className="text-blue-600 text-2xl bottom-0.5 relative">↺</span>
-        </button>
+        {search && (
+          <button
+            onClick={() => setSearch('')}
+            className="px-4 py-2 text-white bg-blue-500 hover:bg-blue-600 rounded"
+            title="Limpar busca"
+          >
+            ↺
+          </button>
+        )}
       </div>
 
       <div className="overflow-x-auto shadow-xl rounded-xl border border-gray-200">
@@ -137,20 +141,20 @@ export default function Clientes() {
             </tr>
           </thead>
           <tbody>
-            {clientes.slice(0, 6).map((cliente, idx) => (
+            {clientes.map((cliente, idx) => (
               <tr
                 key={cliente.id_cliente}
                 className={idx % 2 === 0 ? 'bg-white' : 'bg-gray-50 hover:bg-blue-100 transition-colors'}
               >
-                <td className="w-[160px] max-w-[160px] px-4 py-3 truncate overflow-hidden whitespace-nowrap">{cliente.nome}</td>
-                <td className="w-[160px] max-w-[160px] px-4 py-3 truncate overflow-hidden whitespace-nowrap">{cliente.cpf}</td>
-                <td className="w-[160px] max-w-[160px] px-4 py-3 truncate overflow-hidden whitespace-nowrap">{cliente.email}</td>
-                <td className="w-[160px] max-w-[160px] px-4 py-3 truncate overflow-hidden whitespace-nowrap">{cliente.profissao}</td>
-                <td className="w-[160px] max-w-[160px] px-4 py-3 truncate overflow-hidden whitespace-nowrap">{cliente.idade}</td>
-                <td className="w-[160px] max-w-[160px] px-4 py-3 truncate overflow-hidden whitespace-nowrap">
+                <td className="px-4 py-3 truncate">{cliente.nome}</td>
+                <td className="px-4 py-3 truncate">{cliente.cpf}</td>
+                <td className="px-4 py-3 truncate">{cliente.email}</td>
+                <td className="px-4 py-3 truncate">{cliente.profissao}</td>
+                <td className="px-4 py-3 truncate">{cliente.idade}</td>
+                <td className="px-4 py-3 truncate">
                   R$ {cliente.salario_anual.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                 </td>
-                <td className="w-[160px] max-w-[160px] px-4 py-3 truncate overflow-hidden whitespace-nowrap font-semibold text-blue-600">{cliente.score_credito}</td>
+                <td className="px-4 py-3 truncate font-semibold text-blue-600">{cliente.score_credito}</td>
               </tr>
             ))}
           </tbody>
