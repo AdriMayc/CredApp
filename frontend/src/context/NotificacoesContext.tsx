@@ -15,7 +15,7 @@
  * que qualquer componente consumidor adicione, remova ou limpe notificações facilmente.
  */
 
-import React, { createContext, useState } from 'react';
+import { createContext, useState } from 'react';
 import type { ReactNode } from "react"
 import type { SolicitacaoCredito } from './SolicitacoesContext';
 

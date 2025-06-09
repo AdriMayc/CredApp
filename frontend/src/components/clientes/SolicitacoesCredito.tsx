@@ -12,50 +12,18 @@
  * - SolicitacoesContext: para adicionar e remover solicitações.
  * - NotificacoesContext: para remover notificações associadas ao cliente.
  */
-import React, { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { SolicitacoesContext } from '../../context/SolicitacoesContext';
 import type { SolicitacaoCredito } from '../../context/SolicitacoesContext';
 import { NotificacoesContext } from '../../context/NotificacoesContext';
-import { API_URL } from '../../config/api';
+
 
 const maxCardsVisiveis = 5;
 
 export default function SolicitacoesCredito() {
-  const { solicitacoes, adicionarSolicitacao, removerSolicitacao } = useContext(SolicitacoesContext);
+  const { solicitacoes, removerSolicitacao } = useContext(SolicitacoesContext);
   const { removerNotificacao } = useContext(NotificacoesContext);
 
-  // Gera valores aleatórios do empréstimo para o cliente
-  const gerarValoresEmprestimo = () => {
-    const valor_emprestimo = Number((Math.random() * 50000 + 1000).toFixed(2)); // R$1k a 50k
-    const meses_restantes = Math.floor(Math.random() * 36) + 6; // 6 a 42 meses
-    const juros_mensal = Number((Math.random() * 4 + 1).toFixed(2)); // 1% a 5%
-    const valor_parcela = Number(
-      ((valor_emprestimo / meses_restantes) * (1 + juros_mensal / 100)).toFixed(2)
-    );
-    return { valor_emprestimo, meses_restantes, juros_mensal, valor_parcela };
-  };
-
-
-  const buscarNovaSolicitacao = async () => {
-    try {
-      const res = await fetch(`${API_URL}/clientes/random`);
-      if (!res.ok) throw new Error('Erro ao buscar cliente');
-      const cliente: Omit<SolicitacaoCredito, 'valor_emprestimo' | 'meses_restantes' | 'juros_mensal' | 'valor_parcela'> = await res.json();
-
-      if (solicitacoes.find((s) => s.id_cliente === cliente.id_cliente)) return;
-
-      const valoresEmprestimo = gerarValoresEmprestimo();
-
-      const novaSolicitacao: SolicitacaoCredito = {
-        ...cliente,
-        ...valoresEmprestimo,
-      };
-
-      adicionarSolicitacao(novaSolicitacao);
-    } catch (error) {
-      console.error('Erro ao buscar nova solicitação:', error);
-    }
-  };
 
   // Registra decisão no histórico local
   const registrarDecisao = (solicitacao: SolicitacaoCredito, status: 'aceito' | 'recusado') => {

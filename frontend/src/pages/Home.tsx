@@ -19,7 +19,7 @@
  * - Componentes personalizados para gráficos e cards.
  */
 
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   FaArrowUp,
   FaArrowDown,
@@ -34,7 +34,6 @@ import DividasMensaisChart from "../components/home/DividasMensaisChart";
 
 import { API_URL } from '../config/api';
 
-const COLORS = ["#3B82F6", "#22C55E"];
 
 interface EntradaHistorico {
   id_cliente: number;
@@ -43,6 +42,7 @@ interface EntradaHistorico {
   status: "aceito" | "recusado";
   data: string;
 }
+
 
 interface DadosInstituicao {
   score_por_profissao: any[];
@@ -269,7 +269,7 @@ export default function PainelInstituicao() {
       </div>
 
       <div>
-        <CardInadimplentes />
+        <CardInadimplentes dados={dadosAdimplencia}/>
       </div>
 
       <div className="mt-10">

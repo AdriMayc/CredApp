@@ -2,7 +2,7 @@
  * CardInadimplentes.tsx
  * 
  * Componente React que busca e exibe uma lista de clientes inadimplentes,
- * consumindo dados de uma API local.
+ * consumindo dados de uma API local e também recebe dados resumidos via props.
  * 
  * Funcionalidades principais:
  * - Realiza requisição para endpoint `/clientes-inadimplentes` ao montar o componente.
@@ -10,6 +10,7 @@
  * - Limita a exibição aos primeiros 1000 clientes para otimização.
  * - Mostra informações relevantes de cada cliente, como nome, CPF, score de crédito,
  *   meses de atraso e valor total da dívida, formatado para Real.
+ * - Exibe resumo de dados recebidos via props (nome e valor).
  * - Exibe mensagens de loading, erro ou ausência de dados conforme o caso.
  * - Interface responsiva e estilizada com Tailwind CSS.
  */
@@ -26,27 +27,42 @@ interface Cliente {
   valor_total_divida: number;
 }
 
+interface DadosResumo {
+  name: string;
+  value: number;
+}
+
+interface CardInadimplentesProps {
+  dados?: DadosResumo[];  // recebe os dados resumidos (opcional)
+}
+
 const MAX_CLIENTES = 1000;
 
-const CardInadimplentes: React.FC = () => {
+const CardInadimplentes: React.FC<CardInadimplentesProps> = ({ dados }) => {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
- 
 
   useEffect(() => {
     const fetchInadimplentes = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`${API_URL}/clientes-inadimplentes`);
 
-        if (!response.ok) {
-          throw new Error(`Erro HTTP: ${response.status}`);
+        const dadosCache = sessionStorage.getItem('clientesInadimplentes');
+        if (dadosCache) {
+          setClientes(JSON.parse(dadosCache));
+          setLoading(false);
+          return;
         }
 
+        const response = await fetch(`${API_URL}/clientes-inadimplentes`);
+        if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+
         const todosClientes: Cliente[] = await response.json();
-        setClientes(todosClientes.slice(0, MAX_CLIENTES));
+        const clientesLimitados = todosClientes.slice(0, MAX_CLIENTES);
+
+        setClientes(clientesLimitados);
+        sessionStorage.setItem('clientesInadimplentes', JSON.stringify(clientesLimitados));
         setError(null);
       } catch (err: unknown) {
         console.error("Falha ao buscar inadimplentes:", err);
@@ -70,6 +86,22 @@ const CardInadimplentes: React.FC = () => {
           </div>
         )}
       </h2>
+
+      {/* Exibição dos dados resumidos recebidos */}
+      {dados && dados.length > 0 && (
+        <div className="mb-6 border border-gray-300 rounded p-4 bg-gray-50">
+          <h3 className="font-semibold mb-2 text-gray-700">Resumo</h3>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {dados.map((item) => (
+              <li key={item.name} className="flex justify-between bg-white p-3 rounded shadow-sm border border-gray-400">
+                <span className="font-medium text-gray-600">{item.name}</span>
+                <span className="font-semibold text-gray-800">{item.value.toLocaleString('pt-BR')}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {error && (
         <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-center">
           {error}
@@ -91,14 +123,11 @@ const CardInadimplentes: React.FC = () => {
           clientes.map((cliente) => (
             <div key={cliente.id_cliente} className="bg-gray-50 p-4 rounded-lg border border-gray-200 hover:bg-gray-100 transition">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {/* Nome + ID */}
                 <div>
                   <p className="font-semibold text-gray-800">{cliente.nome}</p>
                   <p className="text-xs text-gray-500">ID: {cliente.id_cliente}</p>
                   <p className="text-xs text-gray-500">CPF: {cliente.cpf}</p>
                 </div>
-
-                {/* Score de crédito */}
                 <div>
                   <p className="text-sm text-gray-600">
                     Score Crédito: <span className="font-semibold">{cliente.score_credito}</span>
@@ -107,8 +136,6 @@ const CardInadimplentes: React.FC = () => {
                     Score Num: <span className="font-semibold">{cliente.score_credito_num}</span>
                   </p>
                 </div>
-
-                {/* Atrasos e dívida */}
                 <div className="text-right">
                   <p className="text-sm text-gray-600">
                     Atrasos (meses): <span className="font-semibold">{cliente.atrasos_meses}</span>

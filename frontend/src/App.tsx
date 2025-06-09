@@ -6,7 +6,7 @@ import SimuladorInstituicao from './components/simulador/SimuladorDeCredito';
 import Clientes from './pages/Clientes';
 import { SolicitacoesProvider } from './context/SolicitacoesContext';
 import { NotificacoesProvider } from './context/NotificacoesContext';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import OnlyMobile from './components/global/OnlyMobile';
 
 export default function App() {

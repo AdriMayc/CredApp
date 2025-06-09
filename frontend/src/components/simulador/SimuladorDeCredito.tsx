@@ -16,7 +16,7 @@
  * - Opção para limpar o formulário e reiniciar a simulação.
  */
 
-import React, { useState } from "react";
+import { useState } from "react";
 
 export default function SimuladorCredito() {
   const [nome, setNome] = useState("");

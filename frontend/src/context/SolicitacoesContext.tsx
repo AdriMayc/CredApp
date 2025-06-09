@@ -14,7 +14,7 @@
  * Essa estrutura facilita o gerenciamento e atualização das solicitações e mantém a interface sincronizada com notificações.
  */
 
-import React, {
+import {
   createContext,
   useState,
   useEffect,
@@ -114,7 +114,7 @@ export function SolicitacoesProvider({ children }: Props) {
   useEffect(() => {
     const intervalo = setInterval(() => {
       buscarNovaSolicitacao();
-    }, 900000); // a cada 15 minutos
+    }, 10000);
 
     return () => clearInterval(intervalo);
   }, [buscarNovaSolicitacao]);
