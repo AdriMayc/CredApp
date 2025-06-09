@@ -8,6 +8,7 @@ import { SolicitacoesProvider } from './context/SolicitacoesContext';
 import { NotificacoesProvider } from './context/NotificacoesContext';
 import { useEffect } from 'react';
 import OnlyMobile from './components/global/OnlyMobile';
+import ScrollToTop from './components/global/ScrollToTop';
 
 export default function App() {
   useEffect(() => {
@@ -20,6 +21,7 @@ export default function App() {
       <NotificacoesProvider>
         <SolicitacoesProvider>
           <Router>
+            <ScrollToTop />
             <div className="relative min-h-screen">
               <Navbar />
               <main className="pb-16">
