@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowDown, ArrowUp } from 'lucide-react';
-import SolicitacoesCredito from '../components/SolicitacoesCredito'
+import SolicitacoesCredito from '../components/clientes/SolicitacoesCredito'
 
 interface Cliente {
   id_cliente: number;

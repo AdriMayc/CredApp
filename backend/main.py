@@ -36,7 +36,7 @@ df["data_inicio_emprestimo"] = pd.to_datetime(df["data_inicio_emprestimo"], erro
 
 @app.get("/")
 def home():
-    return {"mensagem": "API de Crédito no ar 🚀 — acesse /docs para testar"}
+    return {"mensagem": "API de Crédito no ar — acesse /docs para testar"}
 
 
 @app.get("/clientes")

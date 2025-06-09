@@ -1,14 +1,17 @@
 import { Link } from 'react-router-dom'
-import { Bell } from 'lucide-react'
 import Notificacoes from './Notificacoes';
 
 function Navbar() {
   return (
     <nav className="fixed top-0 left-0 w-full border-b border-gray-200 bg-white z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-        {/* Logo / Nome do App */}
-        <Link to="/" className="text-xl font-bold text-black">
-          App
+        {/* Logo como imagem */}
+        <Link to="/" className="flex items-center">
+          <img
+            src="/logo.png"
+            alt="Logo do App"
+            className="h-10 w-auto" // Ajuste o tamanho conforme necessário
+          />
         </Link>
 
         {/* Componente Notificações */}

@@ -92,7 +92,4 @@ inadimplentes = df[df['inadimplente'] == 1]
 print(f'Total de clientes inadimplentes: {inadimplentes.shape[0]}')
 print(inadimplentes)
 
-# Opcional: Salva os resultados filtrados em um novo CSV
-inadimplentes.to_csv('inadimplentes.csv', index=False)
-
 # %%

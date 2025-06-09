@@ -10,7 +10,7 @@ import {
 } from "react-icons/fa";
 
 import CardInadimplentes from "../components/home/CardInadimplentes";
-import DividasMensaisChart from "../components/DividasMensaisChart";
+import DividasMensaisChart from "../components/home/DividasMensaisChart";
 
 const COLORS = ["#3B82F6", "#22C55E"];
 
