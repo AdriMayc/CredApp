@@ -14,15 +14,16 @@
  * - Interface responsiva e estilizada com Tailwind CSS.
  */
 import React, { useEffect, useState } from "react";
+import { API_URL } from '../../config/api';
 
 interface Cliente {
   id_cliente: number;
   nome: string;
   cpf: string;
   score_credito: string;
-  score_credito_num: number;      
-  atrasos_meses: number;          
-  valor_total_divida: number;     
+  score_credito_num: number;
+  atrasos_meses: number;
+  valor_total_divida: number;
 }
 
 const MAX_CLIENTES = 1000;
@@ -32,19 +33,19 @@ const CardInadimplentes: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+ 
+
   useEffect(() => {
     const fetchInadimplentes = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://127.0.0.1:8000/clientes-inadimplentes');
+        const response = await fetch(`${API_URL}/clientes-inadimplentes`);
 
         if (!response.ok) {
           throw new Error(`Erro HTTP: ${response.status}`);
         }
 
         const todosClientes: Cliente[] = await response.json();
-        console.log('Dados retornados pela API:', todosClientes);
-
         setClientes(todosClientes.slice(0, MAX_CLIENTES));
         setError(null);
       } catch (err: unknown) {

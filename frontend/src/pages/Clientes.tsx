@@ -16,6 +16,7 @@
 import { useEffect, useState } from 'react';
 import { ArrowDown, ArrowUp } from 'lucide-react';
 import SolicitacoesCredito from '../components/clientes/SolicitacoesCredito'
+import { API_URL } from '../config/api';
 
 interface Cliente {
   id_cliente: number;
@@ -61,7 +62,7 @@ export default function Clientes() {
       params.append('direcao', direcao);
     }
 
-    fetch(`http://localhost:8000/clientes?${params}`)
+    fetch(`${API_URL}/clientes?${params}`)
       .then(res => {
         if (!res.ok) throw new Error('Erro na resposta da API');
         return res.json();

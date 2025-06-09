@@ -14,8 +14,9 @@
  */
 import React, { useContext, useEffect } from 'react';
 import { SolicitacoesContext } from '../../context/SolicitacoesContext';
-import type {SolicitacaoCredito } from '../../context/SolicitacoesContext';
+import type { SolicitacaoCredito } from '../../context/SolicitacoesContext';
 import { NotificacoesContext } from '../../context/NotificacoesContext';
+import { API_URL } from '../../config/api';
 
 const maxCardsVisiveis = 5;
 
@@ -34,10 +35,10 @@ export default function SolicitacoesCredito() {
     return { valor_emprestimo, meses_restantes, juros_mensal, valor_parcela };
   };
 
-  // Busca cliente aleatório da API e cria solicitação
+
   const buscarNovaSolicitacao = async () => {
     try {
-      const res = await fetch('http://localhost:8000/clientes/random');
+      const res = await fetch(`${API_URL}/clientes/random`);
       if (!res.ok) throw new Error('Erro ao buscar cliente');
       const cliente: Omit<SolicitacaoCredito, 'valor_emprestimo' | 'meses_restantes' | 'juros_mensal' | 'valor_parcela'> = await res.json();
 

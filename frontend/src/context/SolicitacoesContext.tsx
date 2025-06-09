@@ -23,6 +23,7 @@ import React, {
 } from 'react';
 import type { ReactNode } from 'react';
 import { NotificacoesContext } from './NotificacoesContext';
+import { API_URL } from '../config/api';
 
 export interface SolicitacaoCredito {
   id_cliente: number;
@@ -82,7 +83,7 @@ export function SolicitacoesProvider({ children }: Props) {
 
   const buscarNovaSolicitacao = useCallback(async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/clientes/random");
+      const response = await fetch(`${API_URL}/clientes/random`);
       if (!response.ok) throw new Error("Erro ao buscar cliente da API");
 
       const clienteBase = await response.json();

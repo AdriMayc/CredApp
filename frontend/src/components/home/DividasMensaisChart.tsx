@@ -15,7 +15,7 @@
  * visualizar a evolução anual das dívidas no formato gráfico.
  */
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Bar } from "react-chartjs-2";
 import {
@@ -27,16 +27,15 @@ import {
   Tooltip,
   Legend
 } from "chart.js";
+import { API_URL } from '../../config/api';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-// Interface pra cada item de dívida mensal que vem da API
 interface DividaMensal {
-  mes: string;           
-  total_divida: number;  
+  mes: string;
+  total_divida: number;
 }
 
-// Interface do formato que o ChartJS espera para os dados
 interface ChartData {
   labels: string[];
   datasets: {
@@ -46,25 +45,22 @@ interface ChartData {
   }[];
 }
 
+
+
 export default function DividasAnuaisChart() {
-  // Estado com tipo correto, pode ser null ou ChartData
   const [data, setData] = useState<ChartData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/dividas-mensais")
+      .get(`${API_URL}/dividas-mensais`)
       .then((res) => {
-        // Dizendo que dividasMensais é array de DividaMensal
         const dividasMensais: DividaMensal[] = res.data.dividas_mensais;
 
-        // Agrupa as dívidas por ano somando os valores
         const dividasAnuais = dividasMensais.reduce<Record<string, number>>((acc, item) => {
           const ano = item.mes.slice(0, 4);
-          if (!acc[ano]) {
-            acc[ano] = 0;
-          }
+          if (!acc[ano]) acc[ano] = 0;
           acc[ano] += item.total_divida;
           return acc;
         }, {});
@@ -90,7 +86,7 @@ export default function DividasAnuaisChart() {
       });
   }, []);
 
-  if (loading) return <p>Carregando dados...</p>;
+  if (loading) return <p className="flex justify-center">Carregando dados...</p>;
   if (error) return <p>{error}</p>;
 
   return (
@@ -133,3 +129,4 @@ export default function DividasAnuaisChart() {
     </div>
   );
 }
+

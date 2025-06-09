@@ -32,6 +32,8 @@ import {
 import CardInadimplentes from "../components/home/CardInadimplentes";
 import DividasMensaisChart from "../components/home/DividasMensaisChart";
 
+import { API_URL } from '../config/api';
+
 const COLORS = ["#3B82F6", "#22C55E"];
 
 interface EntradaHistorico {
@@ -187,7 +189,7 @@ export default function PainelInstituicao() {
   const [dados, setDados] = useState<DadosInstituicao | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:8000/dados-instituicao")
+    fetch(`${API_URL}/dados-instituicao`)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao buscar dados");
         return res.json();
