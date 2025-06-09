@@ -1,4 +1,19 @@
-import React, { useEffect, useState } from 'react';
+/**
+ * Componente Clientes
+ * 
+ * Exibe uma lista paginada, filtrada e ordenável de clientes.
+ * 
+ * Funcionalidades:
+ * - Busca clientes da API com parâmetros de página, filtro de busca, ordenação e direção.
+ * - Permite busca por nome ou CPF.
+ * - Ordena por qualquer coluna clicada, alternando entre ascendente, descendente e sem ordenação.
+ * - Exibe setas indicando direção da ordenação na coluna ativa.
+ * - Paginação com botões 'Anterior' e 'Próxima' e indicação da página atual.
+ * - Exibe dados como salário anual formatado em moeda brasileira.
+ * - Renderiza um componente extra <SolicitacoesCredito /> ao final da lista.
+ */
+
+import { useEffect, useState } from 'react';
 import { ArrowDown, ArrowUp } from 'lucide-react';
 import SolicitacoesCredito from '../components/clientes/SolicitacoesCredito'
 

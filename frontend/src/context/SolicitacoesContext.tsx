@@ -1,4 +1,18 @@
-// SolicitacoesContext.tsx
+/**
+ * Contexto de Solicitações de Crédito
+ * 
+ * Gerencia o estado global das solicitações de crédito no app.
+ * 
+ * Funcionalidades:
+ * - Armazena a lista de solicitações em um estado local.
+ * - Permite adicionar uma nova solicitação, evitando duplicatas pelo 'id_cliente'.
+ * - Ao adicionar uma solicitação, também cria uma notificação correspondente via NotificacoesContext.
+ * - Permite remover solicitações pelo 'id_cliente'.
+ * - Busca periodicamente (a cada 15 minutos) uma nova solicitação aleatória da API local e a adiciona automaticamente.
+ * - Também busca uma nova solicitação sempre que a janela recebe foco.
+ * 
+ * Essa estrutura facilita o gerenciamento e atualização das solicitações e mantém a interface sincronizada com notificações.
+ */
 
 import React, {
   createContext,

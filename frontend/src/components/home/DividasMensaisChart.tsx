@@ -1,3 +1,20 @@
+/**
+ * Componente DividasAnuaisChart
+ * 
+ * Exibe um gráfico de barras que apresenta o total anual de dívidas acumuladas,
+ * com base nos dados mensais obtidos via API REST. 
+ * 
+ * Funcionalidades:
+ * - Busca os dados da API ao montar o componente usando axios.
+ * - Agrupa as dívidas mensais por ano somando seus valores.
+ * - Formata e exibe um gráfico de barras usando Chart.js (react-chartjs-2).
+ * - Exibe mensagens de loading e erro conforme o estado da requisição.
+ * 
+ * Uso:
+ * Basta importar e usar o componente em qualquer parte da aplicação para
+ * visualizar a evolução anual das dívidas no formato gráfico.
+ */
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Bar } from "react-chartjs-2";

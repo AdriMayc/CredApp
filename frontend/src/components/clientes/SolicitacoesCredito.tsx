@@ -1,3 +1,17 @@
+/**
+ * Componente responsável por exibir e gerenciar as solicitações de crédito pendentes.
+ * 
+ * Funcionalidades principais:
+ * - Recupera clientes aleatórios da API e gera valores simulados de empréstimo.
+ * - Exibe até 5 solicitações simultaneamente em formato de cards interativos.
+ * - Permite ao usuário aceitar ou recusar cada solicitação.
+ * - Ao tomar uma decisão, registra os dados e status no sessionStorage (histórico local).
+ * - Remove solicitações aceitas/recusadas da tela e do contexto de notificações.
+ * 
+ * Utiliza os contextos:
+ * - SolicitacoesContext: para adicionar e remover solicitações.
+ * - NotificacoesContext: para remover notificações associadas ao cliente.
+ */
 import React, { useContext, useEffect } from 'react';
 import { SolicitacoesContext } from '../../context/SolicitacoesContext';
 import type {SolicitacaoCredito } from '../../context/SolicitacoesContext';

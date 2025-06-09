@@ -1,3 +1,18 @@
+/**
+ * CardInadimplentes.tsx
+ * 
+ * Componente React que busca e exibe uma lista de clientes inadimplentes,
+ * consumindo dados de uma API local.
+ * 
+ * Funcionalidades principais:
+ * - Realiza requisição para endpoint `/clientes-inadimplentes` ao montar o componente.
+ * - Controla estados de carregamento, erro e dados dos clientes.
+ * - Limita a exibição aos primeiros 1000 clientes para otimização.
+ * - Mostra informações relevantes de cada cliente, como nome, CPF, score de crédito,
+ *   meses de atraso e valor total da dívida, formatado para Real.
+ * - Exibe mensagens de loading, erro ou ausência de dados conforme o caso.
+ * - Interface responsiva e estilizada com Tailwind CSS.
+ */
 import React, { useEffect, useState } from "react";
 
 interface Cliente {

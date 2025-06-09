@@ -1,3 +1,20 @@
+/**
+ * Contexto de Notificações
+ * 
+ * Este arquivo implementa um contexto React para gerenciar notificações relacionadas
+ * a solicitações de crédito, permitindo o compartilhamento do estado entre componentes.
+ * 
+ * Funcionalidades principais:
+ * - Armazenamento das notificações em um estado local com useState.
+ * - Adição de notificações únicas (evitando duplicatas pelo campo 'id').
+ * - Remoção individual de notificações pelo 'id'.
+ * - Limpeza total das notificações.
+ * - Controle de um contador que acompanha a quantidade de notificações ativas.
+ * 
+ * Este contexto facilita o gerenciamento global das notificações no app, permitindo
+ * que qualquer componente consumidor adicione, remova ou limpe notificações facilmente.
+ */
+
 import React, { createContext, useState } from 'react';
 import type { ReactNode } from "react"
 import type { SolicitacaoCredito } from './SolicitacoesContext';

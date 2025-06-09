@@ -1,4 +1,17 @@
-import React, { useEffect, useState } from 'react';
+/**
+ * Componente ExtratoCredito
+ * 
+ * Exibe um extrato de movimentações de crédito armazenadas na sessionStorage,
+ * permitindo filtrar os registros pelo nome do cliente.
+ * 
+ * Funcionalidades:
+ * - Carrega o histórico de crédito do sessionStorage ao montar o componente.
+ * - Filtra a lista em tempo real conforme o texto digitado no campo de busca.
+ * - Exibe registros com destaque visual diferente para status "aceito" e "recusado".
+ * - Mostra mensagens informativas quando não há registros ou filtro não retorna resultados.
+ */
+
+import { useEffect, useState } from 'react';
 
 
 interface EntradaHistorico {

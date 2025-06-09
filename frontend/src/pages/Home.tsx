@@ -1,4 +1,24 @@
-// Home.tsx
+/**
+ * Componente Home
+ * 
+ * Painel principal da instituição financeira que apresenta:
+ * - Resumo do crédito disponível e utilizado.
+ * - Histórico das movimentações de crédito (aceitas e recusadas).
+ * - Indicadores gerais da base de clientes (score médio, inadimplência, renda média).
+ * - Visualizações gráficas e cards de inadimplentes.
+ * 
+ * Funcionalidades principais:
+ * - Carrega dados da API simulada para popular o painel.
+ * - Atualiza visualmente indicadores e gráficos conforme dados.
+ * - Controle de estado para ordenação, paginação e filtros do histórico.
+ * - Uso de ícones para facilitar interpretação dos indicadores.
+ * 
+ * Tecnologias:
+ * - React com hooks (useState, useEffect, useRef).
+ * - React-icons para ícones visuais.
+ * - Componentes personalizados para gráficos e cards.
+ */
+
 import React, { useEffect, useState, useRef } from "react";
 import {
   FaArrowUp,

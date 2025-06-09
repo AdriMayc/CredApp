@@ -1,3 +1,21 @@
+/**
+ * Componente SimuladorCredito
+ * 
+ * Este componente React implementa um simulador de crédito simples que permite ao usuário
+ * inserir dados pessoais e financeiros para calcular um limite de crédito aprovado e o
+ * número máximo de parcelas possíveis.
+ * 
+ * Funcionalidades principais:
+ * - Controle dos campos do formulário via estado local com useState.
+ * - Formatação automática do CPF para o padrão brasileiro (000.000.000-00).
+ * - Validação dos campos: nome obrigatório, CPF válido, idade entre 18 e 75 anos,
+ *   tempo de emprego, renda mensal mínima, score de crédito e valor das dívidas.
+ * - Cálculo do limite de crédito baseado em renda, score, dívidas e tempo de emprego,
+ *   com ajustes conforme regras definidas no cálculo.
+ * - Apresentação clara dos resultados, com mensagens de erro ou sucesso para feedback ao usuário.
+ * - Opção para limpar o formulário e reiniciar a simulação.
+ */
+
 import React, { useState } from "react";
 
 export default function SimuladorCredito() {

@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from collections import defaultdict
 from datetime import datetime
 
-app = FastAPI(title="API de Clientes", version="0.2.0")
+app = FastAPI(title="API de Clientes", version="0.1.0")
 
 app.add_middleware(
     CORSMiddleware,
