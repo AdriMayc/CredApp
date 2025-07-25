@@ -58,7 +58,7 @@ A **Home** é o painel principal da aplicação e concentra as informações ess
 
 ### 📋 Clientes
 
-![Clientes GIF](link-para-gif-ou-imagem)
+<img src="https://github.com/AdriMayc/gif-assets/blob/main/frontend/gif-clientes.gif?raw=true" width="500"/>
 
 Na aba **Clientes**, temos acesso a uma tabela interativa com todos os clientes do banco de dados (100 mil registros simulados).  
 É possível **buscar por um cliente específico** utilizando o campo de pesquisa, permitindo acesso direto às suas informações detalhadas.
@@ -90,11 +90,11 @@ Caso tenha, o simulador mostra:
 
 É uma ferramenta pensada para **agilizar a tomada de decisão** e facilitar o processo de concessão de crédito.
 
+### ➕ Extras
+
 ---
 
 ## - Detalhes do Back-End - FastAPI:
-
-![FastAPI]([link-da-imagem-fastapi](https://github.com/AdriMayc/gif-assets/blob/main/backend/FastAPI.png))
 
 O back-end do projeto foi desenvolvido em **Python** utilizando o framework **FastAPI** — uma ferramenta moderna, rápida e eficiente para construção de APIs RESTful.  
 Toda a estrutura foi pensada para simular um cenário real de análise e gestão de crédito com base em um **dataset de 100 mil clientes**.
@@ -122,28 +122,6 @@ A seguir, serão apresentados os principais endpoints da API, junto com exemplos
 | `GET`  | `/dividas-mensais`         | Geração de gráfico com o total de dívidas por mês/ano       |
 
 ---
-
-🔍 **Os exemplos de retorno em JSON serão exibidos abaixo de cada rota, com base em prints da aplicação real.**
-
-#### `/clientes`  
-Exemplo de resposta:  
-![Exemplo /clientes](https://github.com/AdriMayc/gif-assets/blob/main/backend/clientes.png)
-
-#### `/clientes-inadimplentes`  
-Exemplo de resposta:  
-![Exemplo /clientes](link-da-imagem-ou-gif-do-json)
-
-#### `/clientes/random`  
-Exemplo de resposta:  
-![Exemplo /clientes]([link-da-imagem-ou-gif-do-json](https://github.com/AdriMayc/gif-assets/blob/main/backend/cliente-random.png))
-
-#### `/dados-instituicao`  
-Exemplo de resposta:  
-![Exemplo /clientes]([link-da-imagem-ou-gif-do-json](https://github.com/AdriMayc/gif-assets/blob/main/backend/dados-insti.png))
-
-#### `/dividas-mensais`  
-Exemplo de resposta:  
-![Exemplo /clientes]([link-da-imagem-ou-gif-do-json](https://github.com/AdriMayc/gif-assets/blob/main/backend/dividas.png))
 
 ## ✅ Encerramento
 
