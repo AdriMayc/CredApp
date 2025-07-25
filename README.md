@@ -29,7 +29,7 @@ Com a evolução da ideia, o projeto se transformou em uma solução completa vo
 
 ### 🏠 Página Inicial (Home)
 
-![GIF da Home](link-do-seu-gif-aqui.gif)
+<img src="https://github.com/AdriMayc/gif-assets/blob/main/frontend/gif-home.gif?raw=true" width="300"/>
 
 A **Home** é o painel principal da aplicação e concentra as informações essenciais para o controle de crédito.
 
@@ -70,7 +70,7 @@ Cada decisão impacta o controle financeiro da instituição, refletindo em temp
 
 ### 🧮 Simulador de Crédito
 
-![Simulador GIF](link-para-gif-ou-imagem)
+<img src="https://github.com/AdriMayc/gif-assets/blob/main/frontend/gif-simulacao.gif?raw=true" width="300"/>
 
 A aba **Simulador de Crédito** permite realizar uma **consulta rápida e prática** para avaliar se um possível cliente pode ter acesso a crédito.
 
@@ -91,6 +91,26 @@ Caso tenha, o simulador mostra:
 É uma ferramenta pensada para **agilizar a tomada de decisão** e facilitar o processo de concessão de crédito.
 
 ### ➕ Extras
+
+#### - Painel Principal: Antes - Depois
+<p align="center">
+<img src="https://github.com/AdriMayc/gif-assets/blob/main/Extras/Painel-antes.png" width="250"/>
+<img src="https://github.com/AdriMayc/gif-assets/blob/main/Extras/painel-depois.png" width="247"/>
+</p>
+
+#### - Extrato de Crédito: Antes - Depois
+
+<p align="center">
+<img src="https://github.com/AdriMayc/gif-assets/blob/main/Extras/extrato-antes.png" width="300" />
+<img src="https://github.com/AdriMayc/gif-assets/blob/main/Extras/extrato-depois.png" width="210" />
+</p>
+
+#### - Sistema de Notificação: Antes - Depois
+
+<p align="center">
+<img src="https://github.com/AdriMayc/gif-assets/blob/main/Extras/notifica%C3%A7%C3%A3o-off.png" width="230" />
+<img src="https://github.com/AdriMayc/gif-assets/blob/main/Extras/notificacao-on.png" width="232" />
+</p>
 
 ---
 
