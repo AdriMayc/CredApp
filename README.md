@@ -58,7 +58,7 @@ A **Home** é o painel principal da aplicação e concentra as informações ess
 
 ### 📋 Clientes
 
-<img src="https://github.com/AdriMayc/gif-assets/blob/main/frontend/gif-clientes.gif?raw=true" width="500"/>
+<img src="https://github.com/AdriMayc/gif-assets/blob/main/frontend/gif-clientes.gif?raw=true" width="200"/>
 
 Na aba **Clientes**, temos acesso a uma tabela interativa com todos os clientes do banco de dados (100 mil registros simulados).  
 É possível **buscar por um cliente específico** utilizando o campo de pesquisa, permitindo acesso direto às suas informações detalhadas.
