@@ -94,7 +94,7 @@ Caso tenha, o simulador mostra:
 
 ## - Detalhes do Back-End - FastAPI:
 
-![FastAPI Logo](link-da-imagem-fastapi)
+![FastAPI]([link-da-imagem-fastapi](https://github.com/AdriMayc/gif-assets/blob/main/backend/FastAPI.png))
 
 O back-end do projeto foi desenvolvido em **Python** utilizando o framework **FastAPI** — uma ferramenta moderna, rápida e eficiente para construção de APIs RESTful.  
 Toda a estrutura foi pensada para simular um cenário real de análise e gestão de crédito com base em um **dataset de 100 mil clientes**.
@@ -127,7 +127,7 @@ A seguir, serão apresentados os principais endpoints da API, junto com exemplos
 
 #### `/clientes`  
 Exemplo de resposta:  
-![Exemplo /clientes](link-da-imagem-ou-gif-do-json)
+![Exemplo /clientes](https://github.com/AdriMayc/gif-assets/blob/main/backend/clientes.png)
 
 #### `/clientes-inadimplentes`  
 Exemplo de resposta:  
@@ -135,15 +135,15 @@ Exemplo de resposta:
 
 #### `/clientes/random`  
 Exemplo de resposta:  
-![Exemplo /clientes](link-da-imagem-ou-gif-do-json)
+![Exemplo /clientes]([link-da-imagem-ou-gif-do-json](https://github.com/AdriMayc/gif-assets/blob/main/backend/cliente-random.png))
 
 #### `/dados-instituicao`  
 Exemplo de resposta:  
-![Exemplo /clientes](link-da-imagem-ou-gif-do-json)
+![Exemplo /clientes]([link-da-imagem-ou-gif-do-json](https://github.com/AdriMayc/gif-assets/blob/main/backend/dados-insti.png))
 
 #### `/dividas-mensais`  
 Exemplo de resposta:  
-![Exemplo /clientes](link-da-imagem-ou-gif-do-json)
+![Exemplo /clientes]([link-da-imagem-ou-gif-do-json](https://github.com/AdriMayc/gif-assets/blob/main/backend/dividas.png))
 
 ## ✅ Encerramento
 
