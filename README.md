@@ -1,6 +1,6 @@
-# 💳 CredApp — Sistema de Análise e Gestão de Crédito
+# 💳 Projeto de Dados – Plataforma de Análise de Crédito
 
-O **CredApp** é uma aplicação desenvolvida com o objetivo inicial de realizar uma **análise de score de crédito**.  
+Essa aplicação foi desenvolvida com o objetivo inicial de realizar uma **análise de score de crédito**.  
 Com a evolução da ideia, o projeto se transformou em uma solução completa voltada para **gestores financeiros**, permitindo:
 
 - Gerenciar uma base massiva de clientes;
